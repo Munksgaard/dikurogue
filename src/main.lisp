@@ -41,6 +41,8 @@
   (let* ((max-x (1- width))
          (max-y (1- height))
          (state (generate-screen
-                 (acons :player-pos '(0 . 0) (list (cons :max-x  max-x)
-                                                   (cons :max-y max-y))))))
+                 (list (cons :player-pos '(0 . 0))
+                       (cons :max-x  max-x)
+                       (cons :max-y max-y)
+                       (cons :walls '((5 . 5)))))))
     (sdl-loop state #'handle-key)))
