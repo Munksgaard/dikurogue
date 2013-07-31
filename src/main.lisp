@@ -23,6 +23,12 @@
                          (cdr (assoc :walls state))))
            state)))
 
+(defun sanitize-state (state)
+  "Removes duplicate entries in the state list"
+  (remove-duplicates state
+                     :test (lambda (x y) (equal (car x) (car y)))
+                     :from-end t))
+
 (defun pos-offset (pos  &key (delta-x 0) (delta-y 0) state)
   "Calculates the a new position given a position and an offset.
 
@@ -53,12 +59,14 @@ level."
         state)))
 
 (defun handle-key (state key)
-  (case key
-    (:sdl-key-q ())
-    (:sdl-key-h (generate-screen (move-player state :left)))
-    (:sdl-key-j (generate-screen (move-player state :down)))
-    (:sdl-key-k (generate-screen (move-player state :up)))
-    (:sdl-key-l (generate-screen (move-player state :right)))))
+  (sanitize-state
+   (case key
+     (:sdl-key-q ())
+     (:sdl-key-h (generate-screen (move-player state :left)))
+     (:sdl-key-j (generate-screen (move-player state :down)))
+     (:sdl-key-k (generate-screen (move-player state :up)))
+     (:sdl-key-l (generate-screen (move-player state :right)))
+     (t state))))
 
 (defun main (&key (width 80) (height 24))
   (let* ((max-x (1- width))
