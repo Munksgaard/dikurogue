@@ -9,25 +9,48 @@
          (x (car player-pos))
          (y (cdr player-pos)))
     (acons :screen
-           (list (make-instance 'glyph
+           (cons (make-instance 'glyph
                                 :x x
                                 :y y
                                 :char #\@
                                 :fg-color sdl:*black*
-                                :bg-color sdl:*white*))
+                                :bg-color sdl:*white*)
+                 (mapcar (lambda (wall-pos)
+                           (make-instance 'glyph
+                                          :x (car wall-pos)
+                                          :y (car wall-pos)
+                                          :char #\#))
+                         (cdr (assoc :walls state))))
            state)))
+
+(defun pos-offset (pos  &key (delta-x 0) (delta-y 0) state)
+  "Calculates the a new position given a position and an offset.
+
+A position is a pair of an x-value and a y-value.
+
+If given a state it ensures that the new position is within the bounds of the
+level."
+  (let ((old-x (car pos))
+        (old-y (cdr pos)))
+    (if (null state)
+        (cons (+ old-x delta-x) (+ old-y delta-y))
+        (cons (min (cdr (assoc :max-x state)) (max 0 (+ old-x delta-x)))
+              (min (cdr (assoc :max-y state)) (max 0 (+ old-y delta-y)))))))
+
+(defun can-move (pos state)
+  (let ((walls (cdr (assoc :walls state))))
+    (not (some (lambda (wall) (equal wall pos)) walls))))
 
 (defun move-player (state dir)
   (let* ((player-pos (cdr (assoc :player-pos state)))
-         (x (car player-pos))
-         (y (cdr player-pos))
-         (max-x (cdr (assoc :max-x state)))
-         (max-y (cdr (assoc :max-y state))))
-    (cond
-      ((eq dir :left) (acons :player-pos (cons (max 0 (1- x)) y) state))
-      ((eq dir :down) (acons :player-pos (cons x (min max-y (1+ y))) state))
-      ((eq dir :up) (acons :player-pos (cons x (max 0 (1- y))) state))
-      ((eq dir :right) (acons :player-pos (cons (min max-x (1+ x)) y) state)))))
+         (new-pos (cond ((eq dir :left) (pos-offset player-pos :delta-x -1))
+                        ((eq dir :right) (pos-offset player-pos :delta-x 1))
+                        ((eq dir :up) (pos-offset player-pos :delta-y -1))
+                        ((eq dir :down) (pos-offset player-pos :delta-y 1))
+                        (t (error "Invalid direction")))))
+    (if (can-move new-pos state)
+        (acons :player-pos new-pos state)
+        state)))
 
 (defun handle-key (state key)
   (case key
