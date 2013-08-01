@@ -93,3 +93,7 @@ M-x slime (that is, hold the alt button while pressing x and write
     CL-USER> (dikurogue:main)
 
 to start the dikurogue game.
+
+# Workflow
+
+Always create a new branch before you start working on a new feature!
