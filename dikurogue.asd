@@ -8,4 +8,5 @@
   :depends-on (#:lispbuilder-sdl)
   :components ((:file "package")
                (:file "src/main")
+               (:file "src/mapparser")
                (:file "src/sdl")))

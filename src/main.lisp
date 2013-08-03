@@ -68,12 +68,14 @@ level."
      (:sdl-key-l (generate-screen (move-player state :right)))
      (t state))))
 
-(defun main (&key (width 80) (height 24))
+(defun main (&key (width 80) (height 24) map)
   (let* ((max-x (1- width))
          (max-y (1- height))
          (state (generate-screen
-                 (list (cons :player-pos '(0 . 0))
-                       (cons :max-x  max-x)
-                       (cons :max-y max-y)
-                       (cons :walls '((5 . 5)))))))
+                 (if map
+                     (create-map-from-file map)
+                     (list (cons :player-pos '(0 . 0))
+                           (cons :max-x  max-x)
+                           (cons :max-y max-y)
+                           (cons :walls '((5 . 5))))))))
     (sdl-loop state #'handle-key)))

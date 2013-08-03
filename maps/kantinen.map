@@ -1,0 +1,24 @@
+@ :player
+# :wall
+h :chair
+[ :table-left
+] :table-right
+= :counter
+( :fridge-left
+) :fridge-right
+{ :vending-machine-left
+} :vending-machine-right
+
+############################################################
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h @#
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  #
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  #
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  #
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  #
+#    h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  h[]h  #
+#                                                          #
+#                                                          #
+#{     ##############{}{} ##==========# #=========#        #
+#{    {#          #()()##                         #        #
+#     {#          #       ##============#=========#        #
+############################################################
