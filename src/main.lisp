@@ -18,7 +18,7 @@
                  (mapcar (lambda (wall-pos)
                            (make-instance 'glyph
                                           :x (car wall-pos)
-                                          :y (car wall-pos)
+                                          :y (cdr wall-pos)
                                           :char #\#))
                          (cdr (assoc :walls state))))
            state)))
