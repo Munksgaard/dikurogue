@@ -11,8 +11,8 @@
   ((max-hp :initform 5)
    (symbol :initform #\r)))
 
-(defmethod tick ((x rat) state)
+(defmethod tick ((x rat) world)
   (move x (pos-offset-to-dir
-           (pos-diff (entity-pos x)
-                     (entity-pos (cdr (assoc :player state)))))
-        state))
+           (pos-diff (entity-pos world x)
+                     (entity-pos world (world-player world))))
+        world))

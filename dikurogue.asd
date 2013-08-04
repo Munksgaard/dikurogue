@@ -16,4 +16,6 @@
                (:file "src/sdl")
                (:file "src/main")
                (:file "src/mapparser")
+               (:file "src/world")
+               (:file "src/state")
                (:file "src/utils")))

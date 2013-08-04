@@ -11,10 +11,9 @@
     :initform ()
     :reader player-inventory)))
 
-(defun move-player (dir state)
-  (let ((player (cdr (assoc :player state))))
-    (move player dir state)))
-
 (defmethod destroy ((obj destructible) state)
   (sdl:push-quit-event)
   (format t "Game Over.~%"))
+
+(defun move-player (dir world)
+  (move (world-player world) dir world))

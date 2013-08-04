@@ -28,8 +28,7 @@
 (defun parse-layout (s proc-sym)
   (let ((height (length s))
         (width (apply #'max (mapcar #'length s))))
-    (loop with arr = (make-array (list height width)
-                                 :initial-element (funcall proc-sym #\Space))
+    (loop with arr = (make-array (list height width))
           for i from 0
           for line in s
           do (loop for j from 0
@@ -37,30 +36,31 @@
                    do (setf (aref arr i j) (funcall proc-sym c)))
           finally (return arr))))
 
-(defun create-map-from-file (file)
+(defun create-world-from-file (file player)
   (let* ((a (parse-map-from-file file))
          (max-x (array-dimension a 1))
          (max-y (array-dimension a 0))
-         player
-         terrain)
-    (dotimes (i max-y)
-      (dotimes (j max-x)
-        (case (aref a i j)
-          (:void)
-          (:floor)
-          (:wall (push (make-instance 'entity :pos (cons j i) :symbol #\#) terrain))
-          (:player (if player
-                       (error "Player defined multiple times."))
-                   (setf player (make-instance 'player
-                                               :name "Karl Koder"
-                                               :pos (cons j i)
-                                               :max-hp 10)))
-          ;; Add everything else as walls until we can handle other
-          ;; things.
-          (t (push (make-instance 'entity :pos (cons j i) :symbol #\#) terrain)))))
-    (unless player
-      (error "No player defined."))
-    (list (cons :player player)
-          (cons :max-x max-x)
-          (cons :max-y max-y)
-          (cons :terrain terrain))))
+         (entity-positions (make-hash-table)))
+    (dotimes (x max-x)
+      (dotimes (y max-y)
+        (let ((c (aref a y x)))
+          (labels ((save-position (c)
+                     (when (typep c 'entity)
+                       (setf (gethash c entity-positions) (cons x y))))
+                   (proc (c)
+                     (if (eq c :player)
+                         (progn (if (gethash player entity-positions)
+                                    (error "Player position defined twice.")
+                                    (save-position player))
+                                player)
+                         (progn (save-position c)
+                                c))))
+            (setf (aref a y x)
+                  (if (listp c)
+                      (mapcar #'proc c)
+                      (list (proc c))))))))
+    (unless (gethash player entity-positions)
+      (error "No player position defined in map."))
+    (make-world :cells a
+                :entity-positions entity-positions
+                :player player)))

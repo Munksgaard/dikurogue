@@ -42,7 +42,7 @@
           (window-height (* char-height height))
           (font (sdl:initialise-font font-in))
           (state initial-state)
-          (initial-screen (cdr (assoc :screen state))))
+          (initial-screen (state-screen state)))
       (sdl:with-default-font (font)
         (sdl:window window-width window-height)
         (sdl:enable-key-repeat 500 50)
@@ -55,7 +55,7 @@
           (:key-down-event
            (:key key)
            (let* ((new-state (funcall key-handler state key))
-                 (screen (cdr (assoc :screen new-state))))
+                 (screen (state-screen new-state)))
              (cond
                ((eq new-state nil) (sdl:push-quit-event))
                ((eq screen nil) (error "No screen in return value"))
