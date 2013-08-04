@@ -7,6 +7,12 @@
   :license "mit"
   :depends-on (#:lispbuilder-sdl)
   :components ((:file "package")
+               (:file "src/entity")
+               (:file "src/destructible")
+               (:file "src/attacker")
+               (:file "src/movable")
+               (:file "src/player")
+               (:file "src/sdl")
                (:file "src/main")
                (:file "src/mapparser")
-               (:file "src/sdl")))
+               (:file "src/utils")))

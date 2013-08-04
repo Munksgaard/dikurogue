@@ -41,23 +41,26 @@
   (let* ((a (parse-map-from-file file))
          (max-x (array-dimension a 1))
          (max-y (array-dimension a 0))
-         player-pos
-         walls)
+         player
+         terrain)
     (dotimes (i max-y)
       (dotimes (j max-x)
         (case (aref a i j)
           (:void)
           (:floor)
-          (:wall (push (cons j i) walls))
-          (:player (if player-pos
+          (:wall (push (make-instance 'entity :pos (cons j i) :symbol #\#) terrain))
+          (:player (if player
                        (error "Player defined multiple times."))
-                   (setf player-pos (cons j i)))
+                   (setf player (make-instance 'player
+                                               :name "Karl Koder"
+                                               :pos (cons j i)
+                                               :max-hp 10)))
           ;; Add everything else as walls until we can handle other
           ;; things.
-          (t (push (cons j i) walls)))))
-    (unless player-pos
+          (t (push (make-instance 'entity :pos (cons j i) :symbol #\#) terrain)))))
+    (unless player
       (error "No player defined."))
-    (list (cons :player-pos player-pos)
+    (list (cons :player player)
           (cons :max-x max-x)
           (cons :max-y max-y)
-          (cons :walls walls))))
+          (cons :terrain terrain))))
