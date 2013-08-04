@@ -14,3 +14,7 @@
 (defun move-player (dir state)
   (let ((player (cdr (assoc :player state))))
     (move player dir state)))
+
+(defmethod destroy ((obj destructible) state)
+  (sdl:push-quit-event)
+  (format t "Game Over.~%"))
