@@ -8,6 +8,7 @@ h :chair
 ) :fridge-right
 { :vending-machine-left
 } :vending-machine-right
+  :void
 
 ############################################################
 #        #=========#=================####         #{}      #
