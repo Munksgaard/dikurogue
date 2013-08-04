@@ -12,6 +12,7 @@
                (:file "src/attacker")
                (:file "src/movable")
                (:file "src/player")
+               (:file "src/npc")
                (:file "src/sdl")
                (:file "src/main")
                (:file "src/mapparser")

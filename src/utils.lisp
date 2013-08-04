@@ -4,9 +4,12 @@
   (remove-if (lambda (x) (equal (car x) key)) xs))
 
 (defun is-occupied (pos state)
-  (let ((entities (cdr (assoc :entities state))))
-    (find pos entities :test (lambda (x y) (and (equal x (entity-pos y))
-                                                (typep y 'entity))))))
+  (let ((entities (cdr (assoc :entities state)))
+        (player (cdr (assoc :player state))))
+    (if (equal (entity-pos player) pos)
+        player
+        (find pos entities :test (lambda (x y) (and (equal x (entity-pos y))
+                                                    (typep y 'entity)))))))
 
 (defun pos-offset (pos &key (dx 0) (dy 0) state)
   "Calculates the a new position given a position and an offset.
@@ -25,3 +28,16 @@ level."
 (defun can-move (pos state)
   (let ((walls (cdr (assoc :terrain state))))
     (not (some (lambda (wall) (equal (entity-pos wall) pos)) walls))))
+
+(defun pos-diff (pos-1 pos-2)
+  (cons (- (car pos-2) (car pos-1))
+        (- (cdr pos-2) (cdr pos-1))))
+
+(defun pos-offset-to-dir (pos)
+  (if (< (abs (car pos)) (abs (cdr pos)))
+      (if (< (cdr pos) 0)
+          :n
+          :s)
+      (if (< (car pos) 0)
+          :w
+          :e)))
