@@ -11,7 +11,7 @@
     :initform ()
     :reader player-inventory)))
 
-(defmethod destroy ((obj destructible) state)
+(defmethod destroy ((obj player) world)
   (sdl:push-quit-event)
   (format t "Game Over.~%"))
 

@@ -19,8 +19,7 @@
     (when (<= (slot-value obj 'hp) 0)
       (destroy obj state))))
 
-(defgeneric destroy (obj state))
+(defgeneric destroy (obj world))
 
-(defmethod destroy ((obj destructible) state)
-  (setf (cdr (assoc :entities state))
-        (remove obj (cdr (assoc :entities state)))))
+(defmethod destroy ((obj destructible) world)
+  (remove-entity world obj))

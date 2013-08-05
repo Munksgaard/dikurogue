@@ -9,5 +9,5 @@
 (defgeneric attack (obj enemy state)
   (:documentation "Attack an enemy"))
 
-(defmethod attack ((obj attacker) (enemy destructible) state)
-  (take-damage enemy (attacker-dmg obj) state))
+(defmethod attack ((obj attacker) (enemy destructible) world)
+  (take-damage enemy (attacker-dmg obj) world))
