@@ -1,6 +1,6 @@
 (in-package #:dikurogue)
 
-(defclass npc () ())
+(defclass npc (movable is-active-mixin) ())
 
 (defgeneric tick (npc state))
 
@@ -13,6 +13,6 @@
 
 (defmethod tick ((x rat) world)
   (move x (pos-offset-to-dir
-           (pos-diff (entity-pos world x)
-                     (entity-pos world (world-player world))))
+           (pos-diff (entity-position x)
+                     (entity-position (world-player world))))
         world))

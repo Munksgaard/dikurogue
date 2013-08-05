@@ -1,12 +1,12 @@
 (in-package #:dikurogue)
 
-(defclass movable (entity) ())
+(defclass movable (entity has-position-mixin) ())
 
 (defgeneric move (ent dir world)
     (:documentation "The function that implements the move."))
 
 (defmethod move ((ent movable) dir world)
-  (let* ((pos (entity-pos world ent))
+  (let* ((pos (entity-position ent))
          (new-pos (case dir
                     (:n (pos-offset pos :dy -1 :world world))
                     (:e (pos-offset pos :dx 1 :world world))

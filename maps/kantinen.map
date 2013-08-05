@@ -1,5 +1,5 @@
-@ :player
-# :wall
+@ *player*
+# *wall*
 h :chair
 [ :table-left
 ] :table-right

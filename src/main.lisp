@@ -31,11 +31,8 @@
     state))
 
 (defun process-ticks (world)
-  (maphash (lambda (v pos)
-             (declare (ignore pos))
-             (if (typep v 'npc)
-                 (tick v world)))
-           (world-entity-positions world)))
+  (dolist (e (world-active-entities  world))
+    (tick e world)))
 
 (defun handle-input (state key)
   (let ((world (state-world state)))
@@ -67,15 +64,11 @@
                                     (make-default-world player))))
               #'handle-input)))
 
-(defgeneric act (object))
-
-(defgeneric acted-upon (object))
-
 (defun make-default-world (player)
-  (make-world :cells (make-array (list 3 3) :initial-contents `((nil nil nil)
-                                                                (nil (,player) nil)
-                                                                (nil nil nil)))
-              :entity-positions (let ((l (make-hash-table)))
-                                  (setf (gethash player l) '(1 . 1))
-                                  l)
-              :player player))
+  (let ((w (make-world :cells (make-array
+                               (list 3 3)
+                               :initial-contents `((nil nil nil)
+                                                   (nil nil nil)
+                                                   (nil nil nil))))))
+    (add-entity w player '(1 . 1))
+    w))

@@ -17,3 +17,12 @@
 
 (defun move-player (dir world)
   (move (world-player world) dir world))
+
+(defmethod add-entity :around (world (object player) pos)
+  (if (null (world-player world))
+      (progn (call-next-method)
+             (setf (world-player world) object))
+      (error "World already has a player.")))
+
+(defmethod remove-entity :after (world (object player))
+  (setf (world-player world) nil))
