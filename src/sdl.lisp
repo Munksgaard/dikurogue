@@ -54,10 +54,11 @@
           (:video-expose-event () (sdl:update-display))
           (:key-down-event
            (:key key)
-           (let* ((new-state (funcall key-handler state key))
-                 (screen (state-screen new-state)))
-             (cond
-               ((eq new-state nil) (sdl:push-quit-event))
-               ((eq screen nil) (error "No screen in return value"))
-               (t (setf state new-state)
-                  (sdl-render screen char-width char-height))))))))))
+           (let ((new-state (funcall key-handler state key)))
+             (if (null new-state)
+                 (sdl:push-quit-event)
+                 (let ((screen (state-screen new-state)))
+                   (cond
+                     ((null screen) (error "No screen in return value"))
+                     (t (setf state new-state)
+                        (sdl-render screen char-width char-height))))))))))))
