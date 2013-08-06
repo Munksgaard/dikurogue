@@ -15,7 +15,9 @@
 
 (defun within-world-bounds (world pos)
   (and (> (world-max-x world) (car pos) -1)
-       (> (world-max-y world) (cdr pos) -1)))
+       (> (world-max-y world) (cdr pos) -1)
+       (<= 0 (car pos))
+       (<= 0 (cdr pos))))
 
 (defun entities-at (world pos)
   (aref (world-cells world) (cdr pos) (car pos)))

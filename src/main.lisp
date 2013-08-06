@@ -28,7 +28,7 @@
                            (draw c))
                     l))
             l))
-    state))
+    (generate-hud state)))
 
 (defun process-ticks (world)
   (dolist (e (world-active-entities  world))
@@ -56,15 +56,19 @@
          (next))
         (t state)))))
 
-(defun main (&key (name "Karl Koder") (max-hp 10) map)
+(defun main (&key (name "Karl Koder") (max-hp 10) map (width 80) (height 24))
   (let ((player (make-instance 'player :name name
                                :max-hp max-hp)))
     (sdl-loop (generate-screen (make-state
                                 :world
                                 (if map
                                     (create-world-from-file map player)
-                                    (make-default-world player))))
-              #'handle-input)))
+                                    (make-default-world player))
+                                :window-width width
+                                :window-height height))
+              #'handle-input
+              :width width
+              :height height)))
 
 (defun make-default-world (player)
   (let ((w (make-world :cells (make-array

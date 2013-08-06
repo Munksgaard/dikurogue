@@ -18,4 +18,5 @@
                (:file "src/world")
                (:file "src/state")
                (:file "src/utils")
+               (:file "src/ui")
                (:file "src/main")))

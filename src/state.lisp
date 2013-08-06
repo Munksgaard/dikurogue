@@ -4,4 +4,6 @@
 
 (defstruct state
   world
-  screen)
+  screen
+  window-width
+  window-height)
