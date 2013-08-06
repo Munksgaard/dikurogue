@@ -44,13 +44,13 @@
                (next)))
       (case key
         (:sdl-key-q ())
-        ((:sdl-key-h :sdl-key-left)
+        ((:sdl-key-a :sdl-key-left)
          (move :w))
-        ((:sdl-key-j :sdl-key-down)
+        ((:sdl-key-s :sdl-key-down)
          (move :s))
-        ((:sdl-key-k :sdl-key-up)
+        ((:sdl-key-w :sdl-key-up)
          (move :n))
-        ((:sdl-key-l :sdl-key-right)
+        ((:sdl-key-d :sdl-key-right)
          (move :e))
         (:sdl-key-period
          (next))
