@@ -29,7 +29,8 @@
 (defun parse-layout (s proc-sym)
   (let ((height (length s))
         (width (apply #'max (mapcar #'length s))))
-    (loop with arr = (make-array (list height width))
+    (loop with arr = (make-array (list height width)
+                                 :initial-element '())
           for i from 0
           for line in s
           do (loop for j from 0
