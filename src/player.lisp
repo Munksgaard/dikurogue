@@ -15,8 +15,8 @@
   (sdl:push-quit-event)
   (format t "Game Over.~%"))
 
-(defun move-player (dir world)
-  (move (world-player world) dir world))
+(defun move-player (dir state)
+  (move (world-player (state-world state)) dir state))
 
 (defmethod add-entity :around (world (object player) pos)
   (if (null (world-player world))
@@ -26,3 +26,6 @@
 
 (defmethod remove-entity :after (world (object player))
   (setf (world-player world) nil))
+
+(defmethod print-object ((p player) out)
+  (format out "you"))

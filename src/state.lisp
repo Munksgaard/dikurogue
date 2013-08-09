@@ -6,4 +6,5 @@
   world
   screen
   window-width
-  window-height)
+  window-height
+  messages)
